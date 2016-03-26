@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="hint_location">Ciudad, Provincia, País</string>
+    <string name="txt_aceptar">Aceptar</string>
 </resources>
