@@ -2,4 +2,6 @@
     <string name="app_name">WeatherApp</string>
     <string name="hint_location">Ciudad, Provincia, País</string>
     <string name="txt_aceptar">Aceptar</string>
+    <string name="title_forecast_list">Forecasts</string>
+    <string name="title_forecast_detail">Forecast Detail</string>
 </resources>
