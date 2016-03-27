@@ -5,20 +5,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.juanma.weatherapp.R;
 
-import com.juanma.weatherapp.activities.dummy.DummyContent;
 import com.juanma.weatherapp.fragments.ForecastDetailFragment;
+import com.juanma.weatherapp.managers.VolleyManager;
+import com.juanma.weatherapp.models.Forecast;
+import com.juanma.weatherapp.models.Weather;
+
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -37,6 +44,11 @@ public class ForecastListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+    private VolleyManager volleyManager;
+    private static final String URL_WEATHER = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Rosario&mode=json&units=metric&cnt=7&appid=794a9f16417650c01f47be753acc436d";
+    private List<Forecast> mForecastList;
+    public static final String TAG = ForecastListActivity.class.getSimpleName();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +59,9 @@ public class ForecastListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        recyclerView = (RecyclerView) findViewById(R.id.forecast_list);
 
-        View recyclerView = findViewById(R.id.forecast_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
+        getForecasts();
 
         if (findViewById(R.id.forecast_detail_container) != null) {
             // The detail container view will be present only in the
@@ -62,37 +73,69 @@ public class ForecastListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        recyclerView.setAdapter(new ForecastListAdapter(mForecastList));
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    private void getForecasts() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                URL_WEATHER,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Weather weather = parseWeatherToJson(response.toString());
+                        mForecastList = weather.getForecasts();
+                        setupRecyclerView(recyclerView);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d(TAG, "Error Respuesta en JSON: " + error.getMessage());
+                    }
+                }
+        );
 
-        private final List<DummyContent.DummyItem> mValues;
+        volleyManager = VolleyManager.getInstance(this);
+        volleyManager.addToRequestQueue(jsonObjectRequest);
+    }
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
+    private Weather parseWeatherToJson(String jsonObject) {
+        Gson gson = new Gson();
+        Weather weather = gson.fromJson(jsonObject, Weather.class);
+        return weather;
+    }
+
+    public class ForecastListAdapter
+            extends RecyclerView.Adapter<ForecastListAdapter.ForecastViewHolder> {
+
+        private final List<Forecast> mForecasts;
+
+        public ForecastListAdapter(List<Forecast> items) {
+            mForecasts = items;
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ForecastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.forecast_list_content, parent, false);
-            return new ViewHolder(view);
+            return new ForecastViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+        public void onBindViewHolder(final ForecastViewHolder holder, int position) {
+            holder.mItem = mForecasts.get(position);
+            holder.mIdView.setText(String.valueOf(mForecasts.get(position).getHumidity()));
+            holder.mContentView.setText(String.valueOf(mForecasts.get(position).getPressure()));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        //arguments.putString(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(ForecastDetailFragment.ARG_ITEM_ID, "1");
                         ForecastDetailFragment fragment = new ForecastDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -101,7 +144,8 @@ public class ForecastListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ForecastDetailActivity.class);
-                        intent.putExtra(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        //intent.putExtra(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ForecastDetailFragment.ARG_ITEM_ID, "1");
 
                         context.startActivity(intent);
                     }
@@ -111,16 +155,16 @@ public class ForecastListActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return mForecasts.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class ForecastViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
             public final TextView mIdView;
             public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            public Forecast mItem;
 
-            public ViewHolder(View view) {
+            public ForecastViewHolder(View view) {
                 super(view);
                 mView = view;
                 mIdView = (TextView) view.findViewById(R.id.id);
