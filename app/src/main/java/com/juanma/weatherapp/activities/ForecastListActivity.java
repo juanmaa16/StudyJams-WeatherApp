@@ -127,11 +127,15 @@ public class ForecastListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ForecastViewHolder holder, int position) {
+            String tempMinMax = String.valueOf(mForecasts.get(position).getTemperature().getMin().intValue()) + "º/" +
+                    String.valueOf(mForecasts.get(position).getTemperature().getMax().intValue()) + "º";
+            String main = String.valueOf(mForecasts.get(position).getWeather().getMain());
+            String date = DatesUtils.toDate(position);
+
             holder.mItem = mForecasts.get(position);
-            holder.tvMain.setText(String.valueOf(mForecasts.get(position).getWeather().getMain()));
-            holder.tvTempMinMax.setText(String.valueOf(mForecasts.get(position).getTemperature().getMin().intValue()) + "º/" +
-                    String.valueOf(mForecasts.get(position).getTemperature().getMax().intValue()) + "º");
-            holder.tvDate.setText(DatesUtils.toDate(position));
+            holder.tvMain.setText(main);
+            holder.tvTempMinMax.setText(tempMinMax);
+            holder.tvDate.setText(date);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
