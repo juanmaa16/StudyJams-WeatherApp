@@ -23,7 +23,7 @@ import com.juanma.weatherapp.R;
 import com.juanma.weatherapp.fragments.ForecastDetailFragment;
 import com.juanma.weatherapp.managers.VolleyManager;
 import com.juanma.weatherapp.models.Forecast;
-import com.juanma.weatherapp.models.Weather;
+import com.juanma.weatherapp.models.WeatherCity;
 
 import org.json.JSONObject;
 
@@ -84,8 +84,8 @@ public class ForecastListActivity extends AppCompatActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Weather weather = parseWeatherToJson(response.toString());
-                        mForecastList = weather.getForecasts();
+                        WeatherCity weatherCity = parseWeatherToJson(response.toString());
+                        mForecastList = weatherCity.getForecasts();
                         setupRecyclerView(recyclerView);
                     }
                 },
@@ -101,10 +101,10 @@ public class ForecastListActivity extends AppCompatActivity {
         volleyManager.addToRequestQueue(jsonObjectRequest);
     }
 
-    private Weather parseWeatherToJson(String jsonObject) {
+    private WeatherCity parseWeatherToJson(String jsonObject) {
         Gson gson = new Gson();
-        Weather weather = gson.fromJson(jsonObject, Weather.class);
-        return weather;
+        WeatherCity weatherCity = gson.fromJson(jsonObject, WeatherCity.class);
+        return weatherCity;
     }
 
     public class ForecastListAdapter
