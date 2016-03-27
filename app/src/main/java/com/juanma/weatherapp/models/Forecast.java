@@ -56,8 +56,8 @@ public class Forecast {
         this.temperature = temperature;
     }
 
-    public List<Weather> getWeather() {
-        return weather;
+    public Weather getWeather() {
+        return weather.get(0);
     }
 
     public void setWeather(List<Weather> weather) {
