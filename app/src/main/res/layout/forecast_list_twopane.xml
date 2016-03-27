@@ -33,7 +33,8 @@
         android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.juanma.weatherapp.activities.ForecastListActivity"
-        tools:listitem="@layout/forecast_list_content" />
+        tools:listitem="@layout/forecast_list_content"
+        android:layout_weight="0.62" />
 
     <FrameLayout
         android:id="@+id/forecast_detail_container"

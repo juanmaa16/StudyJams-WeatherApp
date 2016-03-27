@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -24,6 +25,7 @@ import com.juanma.weatherapp.fragments.ForecastDetailFragment;
 import com.juanma.weatherapp.managers.VolleyManager;
 import com.juanma.weatherapp.models.Forecast;
 import com.juanma.weatherapp.models.WeatherCity;
+import com.juanma.weatherapp.utils.DatesUtils;
 
 import org.json.JSONObject;
 
@@ -126,8 +128,10 @@ public class ForecastListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ForecastViewHolder holder, int position) {
             holder.mItem = mForecasts.get(position);
-            holder.mIdView.setText(String.valueOf(mForecasts.get(position).getHumidity()));
-            holder.mContentView.setText(String.valueOf(mForecasts.get(position).getPressure()));
+            holder.tvMain.setText(String.valueOf(mForecasts.get(position).getWeather().getMain()));
+            holder.tvTempMinMax.setText(String.valueOf(mForecasts.get(position).getTemperature().getMin().intValue()) + "º/" +
+                    String.valueOf(mForecasts.get(position).getTemperature().getMax().intValue()) + "º");
+            holder.tvDate.setText(DatesUtils.toDate(position));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -160,20 +164,24 @@ public class ForecastListActivity extends AppCompatActivity {
 
         public class ForecastViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
+            public final ImageView ivImage;
+            public final TextView tvDate;
+            public final TextView tvMain;
+            public final TextView tvTempMinMax;
             public Forecast mItem;
 
             public ForecastViewHolder(View view) {
                 super(view);
                 mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+                ivImage = (ImageView) view.findViewById(R.id.ivImage);
+                tvDate = (TextView) view.findViewById(R.id.tvDate);
+                tvMain = (TextView) view.findViewById(R.id.tvMain);
+                tvTempMinMax = (TextView) view.findViewById(R.id.tvTempMinMax);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + tvMain.getText() + "'";
             }
         }
     }
