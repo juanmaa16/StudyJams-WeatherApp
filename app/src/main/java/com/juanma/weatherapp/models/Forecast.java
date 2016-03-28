@@ -1,12 +1,17 @@
 package com.juanma.weatherapp.models;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by JuanMa on 26/3/16.
  */
-public class Forecast {
+public class Forecast implements Parcelable {
 
     private double pressure;
     private double humidity;
@@ -15,6 +20,9 @@ public class Forecast {
     @SerializedName("temp")
     private Temperature temperature;
     private List<Weather> weather;
+
+    public Forecast() {
+    }
 
     public double getPressure() {
         return pressure;
@@ -64,92 +72,41 @@ public class Forecast {
         this.weather = weather;
     }
 
-    public class Temperature{
-        private Double day;
-        private Double night;
-        @SerializedName("eve")
-        private Double evening;
-        @SerializedName("mor")
-        private Double morning;
-        private Double min;
-        private Double max;
-
-        public Double getDay() {
-            return day;
-        }
-
-        public void setDay(Double day) {
-            this.day = day;
-        }
-
-        public Double getNight() {
-            return night;
-        }
-
-        public void setNight(Double night) {
-            this.night = night;
-        }
-
-        public Double getEvening() {
-            return evening;
-        }
-
-        public void setEvening(Double evening) {
-            this.evening = evening;
-        }
-
-        public Double getMorning() {
-            return morning;
-        }
-
-        public void setMorning(Double morning) {
-            this.morning = morning;
-        }
-
-        public Double getMin() {
-            return min;
-        }
-
-        public void setMin(Double min) {
-            this.min = min;
-        }
-
-        public Double getMax() {
-            return max;
-        }
-
-        public void setMax(Double max) {
-            this.max = max;
-        }
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public class Weather{
-        private int id;
-        private String main;
-        private String description;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getMain() {
-            return main;
-        }
-
-        public void setMain(String main) {
-            this.main = main;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.pressure);
+        dest.writeDouble(this.humidity);
+        dest.writeDouble(this.speed);
+        dest.writeDouble(this.clouds);
+        dest.writeParcelable(this.temperature, flags);
+        dest.writeList(this.weather);
     }
+
+    protected Forecast(Parcel in) {
+        this.pressure = in.readDouble();
+        this.humidity = in.readDouble();
+        this.speed = in.readDouble();
+        this.clouds = in.readDouble();
+        this.temperature = in.readParcelable(Temperature.class.getClassLoader());
+        this.weather = new ArrayList<Weather>();
+        in.readList(this.weather, Weather.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Forecast> CREATOR = new Parcelable.Creator<Forecast>() {
+        @Override
+        public Forecast createFromParcel(Parcel source) {
+            return new Forecast(source);
+        }
+
+        @Override
+        public Forecast[] newArray(int size) {
+            return new Forecast[size];
+        }
+    };
+
 }
