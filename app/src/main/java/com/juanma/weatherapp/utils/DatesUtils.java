@@ -9,7 +9,7 @@ import java.util.Calendar;
  * Created by JuanMa on 27/3/16.
  */
 public class DatesUtils {
-    public final static String SHORT_DATE_FORMAT = "dd/MM";
+    public final static String SHORT_DATE_FORMAT = "EE dd";
 
     public static String toDate(int add) {
         DateFormat dateFormat = new SimpleDateFormat(SHORT_DATE_FORMAT);
