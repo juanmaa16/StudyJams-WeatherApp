@@ -26,6 +26,7 @@ import com.juanma.weatherapp.managers.VolleyManager;
 import com.juanma.weatherapp.models.Forecast;
 import com.juanma.weatherapp.models.WeatherCity;
 import com.juanma.weatherapp.utils.DatesUtils;
+import com.juanma.weatherapp.utils.WeatherUtils;
 
 import org.json.JSONObject;
 
@@ -127,15 +128,17 @@ public class ForecastListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ForecastViewHolder holder, int position) {
-            String tempMinMax = String.valueOf(mForecasts.get(position).getTemperature().getMin().intValue()) + "º/" +
-                    String.valueOf(mForecasts.get(position).getTemperature().getMax().intValue()) + "º";
-            String main = String.valueOf(mForecasts.get(position).getWeather().getMain());
+            Forecast forecast = mForecasts.get(position);
+            String tempMinMax = String.valueOf(forecast.getTemperature().getMin().intValue()) + "º/" +
+                    String.valueOf(forecast.getTemperature().getMax().intValue()) + "º";
+            String main = String.valueOf(forecast.getWeather().getMain());
             String date = DatesUtils.toDate(position);
 
-            holder.mItem = mForecasts.get(position);
+            holder.mItem = forecast;
             holder.tvMain.setText(main);
             holder.tvTempMinMax.setText(tempMinMax);
             holder.tvDate.setText(date);
+            holder.ivImage.setImageResource(WeatherUtils.getIconResourceForWeatherCondition(forecast.getWeather().getId()));
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
