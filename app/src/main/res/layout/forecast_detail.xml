@@ -1,9 +1,168 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/forecast_detail"
-    style="?android:attr/textAppearanceLarge"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="com.juanma.weatherapp.activities.ForecastDetailFragment" />
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:id="@+id/ivImage"
+        android:src="@drawable/ic_weather_sunny_grey600_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/tvMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunny"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginLeft="22dp"
+        android:textColor="#000"
+        android:layout_marginStart="22dp"
+        android:layout_alignTop="@+id/ivImage"
+        android:layout_toRightOf="@+id/ivImage"
+        android:layout_toEndOf="@+id/ivImage" />
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Some description"
+        android:layout_below="@+id/tvMain"
+        android:layout_alignLeft="@+id/tvMain"
+        android:layout_alignStart="@+id/tvMain" />
+
+    <TextView
+        android:id="@+id/tvTempMinMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10º/25º"
+        android:textSize="25sp"
+        android:textColor="#000"
+        android:layout_marginRight="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_alignBottom="@+id/tvDescription"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvDescription"
+        android:layout_alignRight="@+id/tvTempMinMax"
+        android:layout_alignEnd="@+id/tvTempMinMax"
+        android:layout_alignLeft="@+id/ivImage"
+        android:layout_alignStart="@+id/ivImage"
+        android:layout_marginTop="16dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvHumid"
+                android:src="@drawable/ic_water_percent_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvHumidValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/tvHumid" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humid"
+                android:id="@+id/tvHumidText"
+                android:layout_below="@+id/tvHumidValue"
+                android:layout_toRightOf="@+id/tvHumid"
+                android:layout_toEndOf="@+id/tvHumid" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivRain"
+                android:src="@drawable/ic_umbrella_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvRainValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivRain" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rain"
+                android:id="@+id/tvRainText"
+                android:layout_below="@+id/tvRainValue"
+                android:layout_toRightOf="@+id/ivRain"
+                android:layout_toEndOf="@+id/ivRain" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivPressure"
+                android:src="@drawable/ic_umbrella_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvPressureValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivPressure" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pressure"
+                android:id="@+id/tvPressureText"
+                android:layout_below="@+id/tvPressureValue"
+                android:layout_toRightOf="@+id/ivPressure"
+                android:layout_toEndOf="@+id/ivPressure" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</RelativeLayout>
