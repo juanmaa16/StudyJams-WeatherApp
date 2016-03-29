@@ -17,6 +17,7 @@ public class Forecast implements Parcelable {
     private double humidity;
     private double speed;
     private double clouds;
+    private double rain;
     @SerializedName("temp")
     private Temperature temperature;
     private List<Weather> weather;
@@ -72,6 +73,14 @@ public class Forecast implements Parcelable {
         this.weather = weather;
     }
 
+    public double getRain() {
+        return rain;
+    }
+
+    public void setRain(double rain) {
+        this.rain = rain;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -83,6 +92,7 @@ public class Forecast implements Parcelable {
         dest.writeDouble(this.humidity);
         dest.writeDouble(this.speed);
         dest.writeDouble(this.clouds);
+        dest.writeDouble(this.rain);
         dest.writeParcelable(this.temperature, flags);
         dest.writeList(this.weather);
     }
@@ -92,6 +102,7 @@ public class Forecast implements Parcelable {
         this.humidity = in.readDouble();
         this.speed = in.readDouble();
         this.clouds = in.readDouble();
+        this.rain = in.readDouble();
         this.temperature = in.readParcelable(Temperature.class.getClassLoader());
         this.weather = new ArrayList<Weather>();
         in.readList(this.weather, Weather.class.getClassLoader());
