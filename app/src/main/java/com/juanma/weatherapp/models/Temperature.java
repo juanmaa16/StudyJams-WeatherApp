@@ -13,7 +13,7 @@ public class Temperature implements Parcelable {
     private Double night;
     @SerializedName("eve")
     private Double evening;
-    @SerializedName("mor")
+    @SerializedName("morn")
     private Double morning;
     private Double min;
     private Double max;
