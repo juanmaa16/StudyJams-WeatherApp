@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <ImageView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:id="@+id/ivImage"
         android:src="@drawable/ic_weather_sunny_grey600_48dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_centerVertical="true"/>
+        android:layout_marginTop="16dp" />
 
     <TextView
         android:id="@+id/tvMain"
@@ -20,8 +22,9 @@
         android:layout_height="wrap_content"
         android:text="Sunny"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:layout_marginLeft="22dp"
+        android:layout_marginTop="8dp"
         android:textColor="#000"
         android:layout_marginStart="22dp"
         android:layout_alignTop="@+id/ivImage"
@@ -46,21 +49,19 @@
         android:textColor="#000"
         android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_alignBottom="@+id/tvDescription"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-
+</RelativeLayout>
     <LinearLayout
+        android:id="@+id/llRow1"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDescription"
-        android:layout_alignRight="@+id/tvTempMinMax"
-        android:layout_alignEnd="@+id/tvTempMinMax"
-        android:layout_alignLeft="@+id/ivImage"
-        android:layout_alignStart="@+id/ivImage"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -87,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Humid"
+                android:text="Humidity"
                 android:id="@+id/tvHumidText"
                 android:layout_below="@+id/tvHumidValue"
                 android:layout_toRightOf="@+id/tvHumid"
@@ -138,7 +139,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/ivPressure"
-                android:src="@drawable/ic_umbrella_grey600_48dp"
+                android:src="@drawable/ic_speedometer_grey600_48dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
@@ -163,6 +164,225 @@
 
         </RelativeLayout>
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llRow2"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivMorning"
+                android:src="@drawable/ic_weather_sunset_up_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvMorningValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivMorning" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Morning"
+                android:id="@+id/tvMorningText"
+                android:layout_below="@+id/tvMorningValue"
+                android:layout_toRightOf="@+id/ivMorning"
+                android:layout_toEndOf="@+id/ivMorning" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivDay"
+                android:src="@drawable/ic_weather_sunny_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvDayValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivDay" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Day"
+                android:id="@+id/tvDayText"
+                android:layout_below="@+id/tvDayValue"
+                android:layout_toRightOf="@+id/ivDay"
+                android:layout_toEndOf="@+id/ivDay" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivEve"
+                android:src="@drawable/ic_weather_sunset_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvEveValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivEve" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Evening"
+                android:id="@+id/tvEveText"
+                android:layout_below="@+id/tvEveValue"
+                android:layout_toRightOf="@+id/ivEve"
+                android:layout_toEndOf="@+id/ivEve" />
+
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/llRow3"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivNight"
+                android:src="@drawable/ic_weather_night_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvNightValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivNight" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Night"
+                android:id="@+id/tvNightText"
+                android:layout_below="@+id/tvNightValue"
+                android:layout_toRightOf="@+id/ivNight"
+                android:layout_toEndOf="@+id/ivNight" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivWind"
+                android:src="@drawable/ic_weather_windy_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvWindValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivWind" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wind"
+                android:id="@+id/tvWindText"
+                android:layout_below="@+id/tvWindValue"
+                android:layout_toRightOf="@+id/ivWind"
+                android:layout_toEndOf="@+id/ivWind" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ivClouds"
+                android:src="@drawable/ic_weather_cloudy_grey600_48dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="95%"
+                android:id="@+id/tvCloudsValue"
+                android:textStyle="bold"
+                android:layout_toRightOf="@+id/ivClouds" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Clouds"
+                android:id="@+id/tvCloudsText"
+                android:layout_below="@+id/tvCloudsValue"
+                android:layout_toRightOf="@+id/ivClouds"
+                android:layout_toEndOf="@+id/ivClouds" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

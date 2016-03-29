@@ -30,6 +30,7 @@ import com.juanma.weatherapp.utils.WeatherUtils;
 
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -129,8 +130,7 @@ public class ForecastListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ForecastViewHolder holder, int position) {
             Forecast forecast = mForecasts.get(position);
-            String tempMinMax = String.valueOf(forecast.getTemperature().getMin().intValue()) + "º/" +
-                    String.valueOf(forecast.getTemperature().getMax().intValue()) + "º";
+            String tempMinMax = WeatherUtils.getMinMaxTempText(forecast.getTemperature().getMin(),forecast.getTemperature().getMax());
             String main = String.valueOf(forecast.getWeather().getMain());
             String date = DatesUtils.toDate(position);
 
@@ -143,20 +143,19 @@ public class ForecastListActivity extends AppCompatActivity {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Bundle b = new Bundle();
+                    b.putParcelable("forecast", holder.mItem);
+
                     if (mTwoPane) {
-                        Bundle arguments = new Bundle();
-                        //arguments.putString(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        arguments.putString(ForecastDetailFragment.ARG_ITEM_ID, "1");
                         ForecastDetailFragment fragment = new ForecastDetailFragment();
-                        fragment.setArguments(arguments);
+                        fragment.setArguments(b);
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.forecast_detail_container, fragment)
                                 .commit();
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ForecastDetailActivity.class);
-                        //intent.putExtra(ForecastDetailFragment.ARG_ITEM_ID, holder.mItem.id);
-                        intent.putExtra(ForecastDetailFragment.ARG_ITEM_ID, "1");
+                        intent.putExtra("forecast", b);
 
                         context.startActivity(intent);
                     }

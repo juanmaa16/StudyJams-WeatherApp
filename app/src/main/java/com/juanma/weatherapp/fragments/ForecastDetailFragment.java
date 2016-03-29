@@ -7,12 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.juanma.weatherapp.R;
 import com.juanma.weatherapp.activities.ForecastDetailActivity;
 import com.juanma.weatherapp.activities.ForecastListActivity;
-import com.juanma.weatherapp.activities.dummy.DummyContent;
+import com.juanma.weatherapp.models.Forecast;
+import com.juanma.weatherapp.utils.WeatherUtils;
 
 /**
  * A fragment representing a single Forecast detail screen.
@@ -21,40 +24,16 @@ import com.juanma.weatherapp.activities.dummy.DummyContent;
  * on handsets.
  */
 public class ForecastDetailFragment extends Fragment {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
+    private Forecast mForecast;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ForecastDetailFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
-
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
-            }
-        }
+        mForecast = getArguments().getParcelable("forecast");
     }
 
     @Override
@@ -62,9 +41,20 @@ public class ForecastDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.forecast_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.forecast_detail)).setText(mItem.details);
+        if (mForecast != null) {
+            ((ImageView) rootView.findViewById(R.id.ivImage)).setImageResource(WeatherUtils.getIconResourceForWeatherCondition(mForecast.getWeather().getId()));
+            ((TextView) rootView.findViewById(R.id.tvMain)).setText(mForecast.getWeather().getMain());
+            ((TextView) rootView.findViewById(R.id.tvDescription)).setText(mForecast.getWeather().getDescription());
+            ((TextView) rootView.findViewById(R.id.tvTempMinMax)).setText(WeatherUtils.getMinMaxTempText(mForecast.getTemperature().getMin(), mForecast.getTemperature().getMax()));
+            ((TextView) rootView.findViewById(R.id.tvHumidValue)).setText(String.valueOf(mForecast.getHumidity()));
+            ((TextView) rootView.findViewById(R.id.tvPressureValue)).setText(WeatherUtils.getPressureUnit(mForecast.getPressure()));
+            ((TextView) rootView.findViewById(R.id.tvRainValue)).setText(String.valueOf(mForecast.getRain()));
+            ((TextView) rootView.findViewById(R.id.tvMorningValue)).setText(WeatherUtils.getTempUnit(mForecast.getTemperature().getMorning()));
+            ((TextView) rootView.findViewById(R.id.tvEveValue)).setText(WeatherUtils.getTempUnit(mForecast.getTemperature().getEvening()));
+            ((TextView) rootView.findViewById(R.id.tvDayValue)).setText(WeatherUtils.getTempUnit(mForecast.getTemperature().getDay()));
+            ((TextView) rootView.findViewById(R.id.tvNightValue)).setText(WeatherUtils.getTempUnit(mForecast.getTemperature().getNight()));
+            ((TextView) rootView.findViewById(R.id.tvWindValue)).setText(WeatherUtils.getWindUnit(mForecast.getSpeed()));
+            ((TextView) rootView.findViewById(R.id.tvCloudsValue)).setText(WeatherUtils.getCloudsUnit(mForecast.getClouds()));
         }
 
         return rootView;

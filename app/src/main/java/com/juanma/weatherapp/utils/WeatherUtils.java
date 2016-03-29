@@ -6,12 +6,40 @@ import com.juanma.weatherapp.R;
  * Created by JuanMa on 27/3/16.
  */
 public class WeatherUtils {
+    public final static String TEMP_UNIT = "º";
+    public final static String CLOUDS_UNIT = "%";
+    public final static String WIND_UNIT = "m/s";
+    public final static String PRES_UNIT = "m/s";
+
+
+    public static String getMinMaxTempText(Double min, Double max) {
+        return String.valueOf(min.intValue()) + TEMP_UNIT +"/" +
+                String.valueOf(max.intValue()) + TEMP_UNIT;
+    }
+
+    public static String getTempUnit(Double temp) {
+        return String.valueOf(temp.intValue() + TEMP_UNIT);
+    }
+
+    public static String getCloudsUnit(double clouds){
+        return String.valueOf(clouds + CLOUDS_UNIT);
+    }
+
+    public static String getWindUnit(double wind){
+        return String.valueOf(wind + WIND_UNIT);
+    }
+
+    public static String getPressureUnit(double pressure){
+        return String.valueOf(pressure + PRES_UNIT);
+    }
+
     //Based on Utility class found at:
     //https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/java/com/example/android/sunshine/app/Utility.java
 
     /**
      * Helper method to provide the icon resource id according to the weather condition id returned
      * by the OpenWeatherMap call.
+     *
      * @param weatherId from OpenWeatherMap API response
      * @return resource id for the corresponding icon. -1 if no relation is found.
      */
