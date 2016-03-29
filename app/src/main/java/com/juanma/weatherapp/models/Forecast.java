@@ -17,7 +17,7 @@ public class Forecast implements Parcelable {
     private double humidity;
     private double speed;
     private double clouds;
-    private double rain;
+    private double rain = 0;
     @SerializedName("temp")
     private Temperature temperature;
     private List<Weather> weather;
