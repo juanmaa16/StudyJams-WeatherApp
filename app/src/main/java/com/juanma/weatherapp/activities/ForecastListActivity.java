@@ -7,30 +7,20 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
 import com.juanma.weatherapp.R;
 
 import com.juanma.weatherapp.fragments.ForecastDetailFragment;
-import com.juanma.weatherapp.managers.VolleyManager;
 import com.juanma.weatherapp.models.Forecast;
 import com.juanma.weatherapp.models.WeatherCity;
 import com.juanma.weatherapp.utils.DatesUtils;
 import com.juanma.weatherapp.utils.WeatherUtils;
 
-import org.json.JSONObject;
-
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -48,8 +38,6 @@ public class ForecastListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    private VolleyManager volleyManager;
-    private static final String URL_WEATHER = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Rosario&mode=json&units=metric&cnt=7&appid=794a9f16417650c01f47be753acc436d";
     private List<Forecast> mForecastList;
     public static final String TAG = ForecastListActivity.class.getSimpleName();
     private RecyclerView recyclerView;
@@ -63,9 +51,16 @@ public class ForecastListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        WeatherCity weatherCity = getIntent().getExtras().getParcelable("weatherCity");
+        mForecastList = weatherCity.getForecasts();
+
+        Bundle b = new Bundle();
+        b.putString("forecast",
+                getIntent().getStringExtra("forecast"));
+
         recyclerView = (RecyclerView) findViewById(R.id.forecast_list);
 
-        getForecasts();
+        setupRecyclerView(recyclerView);
 
         if (findViewById(R.id.forecast_detail_container) != null) {
             // The detail container view will be present only in the
@@ -78,37 +73,6 @@ public class ForecastListActivity extends AppCompatActivity {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new ForecastListAdapter(mForecastList));
-    }
-
-    private void getForecasts() {
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET,
-                URL_WEATHER,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        WeatherCity weatherCity = parseWeatherToJson(response.toString());
-                        mForecastList = weatherCity.getForecasts();
-                        setupRecyclerView(recyclerView);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d(TAG, "Error Respuesta en JSON: " + error.getMessage());
-                    }
-                }
-        );
-
-        volleyManager = VolleyManager.getInstance(this);
-        volleyManager.addToRequestQueue(jsonObjectRequest);
-    }
-
-    private WeatherCity parseWeatherToJson(String jsonObject) {
-        Gson gson = new Gson();
-        WeatherCity weatherCity = gson.fromJson(jsonObject, WeatherCity.class);
-        return weatherCity;
     }
 
     public class ForecastListAdapter

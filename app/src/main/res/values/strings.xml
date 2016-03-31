@@ -4,4 +4,5 @@
     <string name="txt_aceptar">Aceptar</string>
     <string name="title_forecast_list">Forecasts</string>
     <string name="title_forecast_detail">Forecast Detail</string>
+    <string name="error_sin_resultados">No se han encontrado resultados</string>
 </resources>
