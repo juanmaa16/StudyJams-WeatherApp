@@ -29,7 +29,6 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
     private VolleyManager volleyManager;
-    private static final String URL_WEATHER = "http://api.openweathermap.org/data/2.5/forecast/daily?q=Rosario&mode=json&units=metric&cnt=7&appid=794a9f16417650c01f47be753acc436d";
     private EditText etLocation;
     private Button btnAceptar;
 
@@ -43,31 +42,42 @@ public class MainActivity extends AppCompatActivity {
 
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                btnAceptar.setEnabled(false);
+                if(etLocation.getText().toString().length() == 0){
+                    Toast.makeText(MainActivity.this, R.string.error_empty_location,Toast.LENGTH_SHORT);
+                    btnAceptar.setEnabled(true);
+                    return;
+                }
                 getForecasts();
             }
         });
     }
 
     private void getForecasts() {
+        String uri = String.format("http://api.openweathermap.org/data/2.5/forecast/daily?q=%s&mode=json&units=metric&cnt=7&appid=%s",
+                etLocation.getText().toString(),
+                getResources().getString(R.string.weather_appid));
+        Log.d("URL", uri);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.GET,
-                URL_WEATHER,
+                uri,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         WeatherCity weatherCity = parseWeatherToJson(response.toString());
+                        btnAceptar.setEnabled(true);
                         startListForecast(weatherCity);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        btnAceptar.setEnabled(true);
                         Log.d(TAG, "Error Respuesta en JSON: " + error.getMessage());
                     }
                 }
         );
-
         volleyManager = VolleyManager.getInstance(this);
         volleyManager.addToRequestQueue(jsonObjectRequest);
     }
@@ -84,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("weatherCity", wc);
             startActivity(intent);
         }else{
-            Toast.makeText(this, R.string.error_sin_resultados,Toast.LENGTH_SHORT);
+            Toast.makeText(this, R.string.error_no_results,Toast.LENGTH_SHORT);
         }
     }
 }
