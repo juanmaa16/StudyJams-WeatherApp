@@ -49,8 +49,9 @@ public class ForecastListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forecast_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        toolbar.setTitle(getString(R.string.title_forecast_for) + getIntent().getStringExtra(getString(R.string.key_extra_city_name)));
 
         mWeatherCity = getIntent().getExtras().getParcelable(getString(R.string.key_extra_weather_city));
         mForecastList = mWeatherCity.getForecasts();

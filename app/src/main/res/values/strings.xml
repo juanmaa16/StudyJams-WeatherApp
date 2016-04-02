@@ -9,4 +9,6 @@
     <string name="error_empty_location">You must enter a city</string>
     <string name="key_extra_weather_city">weatherCity</string>
     <string name="key_extra_forecast">forecast</string>
+    <string name="title_forecast_for">"Forecast for "</string>
+    <string name="key_extra_city_name">cityName</string>
 </resources>
