@@ -57,8 +57,8 @@ public class ForecastDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString("forecast",
-                    getIntent().getStringExtra("forecast"));
+            arguments.putParcelable("forecast",
+                    getIntent().getExtras().getParcelable("forecast"));
             ForecastDetailFragment fragment = new ForecastDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
