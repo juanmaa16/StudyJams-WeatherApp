@@ -33,7 +33,7 @@ public class ForecastDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mForecast = getArguments().getParcelable("forecast");
+        mForecast = getArguments().getParcelable(getString(R.string.key_extra_forecast));
     }
 
     @Override

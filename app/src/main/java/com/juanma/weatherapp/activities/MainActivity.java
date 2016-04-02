@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
     private void startListForecast(WeatherCity wc){
         if(wc.getForecasts().size()>0){
             Intent intent = new Intent(this, ForecastListActivity.class);
-            intent.putExtra("weatherCity", wc);
+            intent.putExtra(getString(R.string.key_extra_weather_city), wc);
             startActivity(intent);
         }else{
             Toast.makeText(this, R.string.error_no_results,Toast.LENGTH_SHORT);

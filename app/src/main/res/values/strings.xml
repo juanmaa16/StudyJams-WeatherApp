@@ -7,4 +7,6 @@
     <string name="error_no_results">Error: No results</string>
     <string name="weather_appid">794a9f16417650c01f47be753acc436d</string>
     <string name="error_empty_location">You must enter a city</string>
+    <string name="key_extra_weather_city">weatherCity</string>
+    <string name="key_extra_forecast">forecast</string>
 </resources>

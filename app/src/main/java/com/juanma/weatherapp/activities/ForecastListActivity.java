@@ -52,12 +52,8 @@ public class ForecastListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        mWeatherCity = getIntent().getExtras().getParcelable("weatherCity");
+        mWeatherCity = getIntent().getExtras().getParcelable(getString(R.string.key_extra_weather_city));
         mForecastList = mWeatherCity.getForecasts();
-
-        Bundle b = new Bundle();
-        b.putString("forecast",
-                getIntent().getStringExtra("forecast"));
 
         recyclerView = (RecyclerView) findViewById(R.id.forecast_list);
 
@@ -110,7 +106,7 @@ public class ForecastListActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle b = new Bundle();
-                        b.putParcelable("forecast", holder.mItem);
+                        b.putParcelable(getString(R.string.key_extra_forecast), holder.mItem);
                         ForecastDetailFragment fragment = new ForecastDetailFragment();
                         fragment.setArguments(b);
                         getSupportFragmentManager().beginTransaction()
@@ -119,7 +115,7 @@ public class ForecastListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ForecastDetailActivity.class);
-                        intent.putExtra("forecast", holder.mItem);
+                        intent.putExtra(getString(R.string.key_extra_forecast), holder.mItem);
 
                         context.startActivity(intent);
                     }
