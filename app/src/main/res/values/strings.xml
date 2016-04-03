@@ -11,4 +11,5 @@
     <string name="key_extra_forecast">forecast</string>
     <string name="title_forecast_for">"Forecast for "</string>
     <string name="key_extra_city_name">cityName</string>
+    <string name="sp_last_location">last_location</string>
 </resources>

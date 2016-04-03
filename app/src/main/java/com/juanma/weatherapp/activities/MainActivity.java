@@ -1,6 +1,8 @@
 package com.juanma.weatherapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         etLocation = (EditText) findViewById(R.id.etLocation);
+        etLocation.setText(getLastLocation());
+
         btnAceptar = (Button) findViewById(R.id.btnAceptar);
 
         btnAceptar.setOnClickListener(new View.OnClickListener() {
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     btnAceptar.setEnabled(true);
                     return;
                 }
+                saveLastLocation(etLocation.getText().toString());
                 getForecasts();
             }
         });
@@ -96,5 +101,17 @@ public class MainActivity extends AppCompatActivity {
         }else{
             Toast.makeText(this, R.string.error_no_results,Toast.LENGTH_SHORT);
         }
+    }
+
+    private void saveLastLocation(String location) {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(getString(R.string.sp_last_location), location);
+        editor.commit();
+    }
+
+    private String getLastLocation() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        return sharedPref.getString(getString(R.string.sp_last_location), "");
     }
 }
