@@ -2,6 +2,7 @@ package com.juanma.weatherapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.volley.Request;
@@ -11,11 +12,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.juanma.weatherapp.R;
 import com.juanma.weatherapp.managers.VolleyManager;
-import com.juanma.weatherapp.models.Forecast;
 import com.juanma.weatherapp.models.WeatherCity;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 
 import org.json.JSONObject;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -43,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         btnAceptar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 btnAceptar.setEnabled(false);
-                if(etLocation.getText().toString().length() == 0){
-                    Toast.makeText(MainActivity.this, R.string.error_empty_location,Toast.LENGTH_SHORT);
+                if (etLocation.getText().toString().length() == 0) {
+                    Snackbar.make(v, R.string.error_empty_location, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
                     btnAceptar.setEnabled(true);
                     return;
                 }
@@ -54,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getForecasts() {
+        String cityUrl = etLocation.getText().toString().replaceAll(" ", "%20");;
         String uri = String.format("http://api.openweathermap.org/data/2.5/forecast/daily?q=%s&mode=json&units=metric&cnt=7&appid=%s",
-                etLocation.getText().toString(),
+                cityUrl,
                 getResources().getString(R.string.weather_appid));
         Log.d("URL", uri);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
