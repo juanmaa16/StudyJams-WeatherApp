@@ -20,7 +20,8 @@
         <activity
             android:name=".activities.ForecastListActivity"
             android:label="@string/title_forecast_list"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask">
         </activity>
         <activity
             android:name=".activities.ForecastDetailActivity"

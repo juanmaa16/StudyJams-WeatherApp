@@ -69,8 +69,10 @@ public class ForecastDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, ForecastListActivity.class));
-            return true;
+
+            Intent i = new Intent(this, ForecastListActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
         }
         return super.onOptionsItemSelected(item);
     }
